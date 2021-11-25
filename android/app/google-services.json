@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "888889655362",
+    "project_id": "tutienda-ad3c3",
+    "storage_bucket": "tutienda-ad3c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888889655362:android:29c3f91f342b04cbfbaddb",
+        "android_client_info": {
+          "package_name": "com.tutienda.tutienda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888889655362-8cfojj9tucrrmt3f6uba0j6mp65ufqff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjV_6b4zKhTKOQDL3aEnZqPDNRoQIPMqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888889655362-8cfojj9tucrrmt3f6uba0j6mp65ufqff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
