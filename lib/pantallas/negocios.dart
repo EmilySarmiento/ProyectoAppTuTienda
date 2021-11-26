@@ -37,19 +37,54 @@ class _negocioState extends State<negocio> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Negocios"),
+          automaticallyImplyLeading: false,
         ),
         body: Center(
           child: ListView.builder(
+            padding: EdgeInsets.all(15),
             itemCount: tabla_negocios.length,
-            itemBuilder: (BuildContext context,i){
-              return ListTile(
-                title: Text("Negocio "+i.toString()+" - "+tabla_negocios[i]['nombre'].toString()),
-
+            itemBuilder: (BuildContext,i){
+              return Container(
+                child: myCardImage(url: tabla_negocios[i]['logo'],texto: tabla_negocios[i]['nombre']+"\n"+tabla_negocios[i]['celular'].toString(),texto2: tabla_negocios[i]['direccion'], ),
               );
             },
           ),
         ),
         bottomNavigationBar : menuinferior()
+    );
+  }
+}
+
+class myCardImage extends StatelessWidget {
+  final String url;
+  final String texto;
+  final String texto2;
+  const myCardImage({required this.url, required this.texto, required this.texto2});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      margin:EdgeInsets.all(20),
+      elevation:5,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Column(
+            children: [
+              Image.network(url),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Text(texto
+                  , style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 20), textAlign: TextAlign.center,),
+              ),
+              Container(
+                padding: EdgeInsets.all(15),
+                child: Text(texto2),
+              ),
+            ]
+        ),
+      ),
     );
   }
 }

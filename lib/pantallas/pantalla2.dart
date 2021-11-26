@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutienda/pantallas/negocios.dart';
 import 'package:tutienda/pantallas/pantalla3.dart';
+import 'package:tutienda/pantallas/pantalla4.dart';
 import 'package:tutienda/pantallas/productos.dart';
 
 class pantalla2 extends StatelessWidget {
@@ -12,35 +13,48 @@ class pantalla2 extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text("Home"),
+          automaticallyImplyLeading: false,
         ),
         body: Container(
-          padding: EdgeInsets.all(0),
+          padding: EdgeInsets.all(40),
           child: Column(
             children: [
               Container(
-                  padding: EdgeInsets.all(45),
-                  child: Image.network('https://lh5.googleusercontent.com/proxy/MhqIJMQqUXoVrztL_4xYHBFJxNkTK05liy0O2VGyK20NOi6_7yiijOoTag3kz34SuaiXVJpnlQna6qWKQIOpwfj_sYjV4yZ74zcZRTuCub-ogA=s0-d',scale:20)),
+                  padding: EdgeInsets.all(20),
+                  child: Text("¿Qué deseas buscar?",style: TextStyle(color: Colors.redAccent, fontSize: 24, fontWeight: FontWeight.bold,),),),
               Container(
                   margin: EdgeInsets.all(10),
                   child: TextField(
                     controller: dato,
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.search, color : Colors.redAccent, size: 25,),
-                        hintText: "¿Qué deseas buscar?",
+                        hintText: "Ej.: salud, comidas, belleza ...",
                     ),
                   ),
                 ),
+
                 Container(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(0),
                   child: ElevatedButton(
                     onPressed: (){
                       print(dato.text);
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>pantalla3(dato.text)));
                     },
-                    child: Text("Buscar"),
+                    child: Text("Buscar por categoría"),
 
                   ),
                 ),
+                Container(
+                padding: EdgeInsets.all(0),
+                child: ElevatedButton(
+                  onPressed: (){
+                    print(dato.text);
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>pantalla4(dato.text)));
+                  },
+                  child: Text("Buscar por producto"),
+
+                ),
+              ),
               ],
             ),
           ),

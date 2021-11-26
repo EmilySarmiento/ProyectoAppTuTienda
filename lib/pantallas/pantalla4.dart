@@ -6,58 +6,78 @@ import 'package:tutienda/pantallas/negocios.dart';
 import 'package:tutienda/pantallas/pantalla2.dart';
 import 'package:tutienda/pantallas/productos.dart';
 
-class pantalla3 extends StatefulWidget {
+class pantalla4 extends StatefulWidget {
   final String criterio;
-  const pantalla3(this.criterio, {Key? key}) : super(key: key);
+  const pantalla4(this.criterio, {Key? key}) : super(key: key);
 
   @override
-  _pantalla3State createState() => _pantalla3State();
+  _pantalla4State createState() => _pantalla4State();
 }
 
-class _pantalla3State extends State<pantalla3> {
+class _pantalla4State extends State<pantalla4> {
+  List listaProductos=[];
   List listaNegocios=[];
   void initState(){
     super.initState();
-    getNegocio();
+    getProducto();
   }
-  void getNegocio() async {
-    CollectionReference negocios = FirebaseFirestore.instance.collection('negocios');
-    QuerySnapshot res = await negocios.where('categoria',isEqualTo: widget.criterio).get();
+  void getProducto() async {
+    CollectionReference productos = FirebaseFirestore.instance.collection('productos');
+    QuerySnapshot res = await productos.where('nombre',isEqualTo: widget.criterio).get();
     if (res.docs != 0){
       print("trae datos");
       for(var neg in res.docs){
         print(neg.data());
         setState(() {
-          listaNegocios.add(neg.data());
+          listaProductos.add(neg.data());
         });
       }
     }else{
       print("Algo falló");
     }
+    //Consulta negocios
+    String id;
+    CollectionReference datos2 = FirebaseFirestore.instance.collection('negocios');
+    for(var i=0 ; i<listaNegocios.length; i++){
+        id=listaNegocios[i]['negocios'];
+        print(id);
+        QuerySnapshot negocio = await datos2.where(FieldPath.documentId, isEqualTo: id).get();
+        if(negocio.docs.length!=0){
+          for(var neg in negocio.docs){
+            print(neg.data());
+            listaNegocios.add(neg.data());
+          }
+        }else{
+          print("No hay negocios");
+        }
+    }
   }
-
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Búsqueda"),
-      ),
-      body: ListView.builder(
+        appBar: AppBar(
+          title: Text("Búsqueda"),
+        ),
+        body: Center(
+          child: ListView.builder(
             padding: EdgeInsets.all(15),
-            itemCount: listaNegocios.length,
+            itemCount: listaProductos.length,
             itemBuilder: (BuildContext,i){
               return Container(
-                child: myCardImage(url: listaNegocios[i]['logo'],texto: listaNegocios[i]['nombre']+"\n"+listaNegocios[i]['celular'].toString(),texto2: listaNegocios[i]['direccion'], ),
-                );
-              },
-              ),
-
+                  child: myCardImage(url: listaProductos[i]['foto'],texto: listaProductos[i]['nombre']+"\n"+listaProductos[i]['precio'].toString(), texto2:listaProductos[i]['descripcion'], ),
+              );
+            },
+          ),
+        ),
         bottomNavigationBar : menuinferior()
     );
+
   }
 }
+
+
 class myCardImage extends StatelessWidget {
   final String url;
   final String texto;
@@ -91,6 +111,7 @@ class myCardImage extends StatelessWidget {
     );
   }
 }
+
 
 
 
