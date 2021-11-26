@@ -1,5 +1,7 @@
 # tutienda
 
+Tablero trello: https://trello.com/invite/ciclo4b4/2aea9b7f5bf0c67a1f8f3d6e9600dd14
+
 A new Flutter project.
 
 ## Getting Started
