@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutienda/pantallas/pantalla2.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tutienda/pantallas/registro.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
@@ -55,17 +56,12 @@ class _miTiendaState extends State<miTienda> {
                   Container(
                     padding: EdgeInsets.all(10),
                     child: TextField(
-                      onChanged: (texto){
-                        var txt = '';
-                        txt = texto;
-                        print(txt);
-                      },
                       autofocus: false,
                       keyboardType: TextInputType.phone, //coloca el tipo de teclado que se va a mostrar, en este caso el numérico
                       textInputAction: TextInputAction.send, // en enviar, cambia el enter por e avion
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.assignment_ind_sharp, color : Colors.redAccent, size: 25,),
-                        hintText: "Ingresa tu número de teléfono",
+                        hintText: "Ingresa tu número de cédula",
                       ),
                     ),
                   ),
@@ -87,7 +83,7 @@ class _miTiendaState extends State<miTienda> {
                     padding: EdgeInsets.all(5),
                     child: ElevatedButton(
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>pantalla2())); //Dirigir con el botón a otra pantalla
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>registroClientes())); //Dirigir con el botón a otra pantalla
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
