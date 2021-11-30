@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tutienda/pantallas/negocios.dart';
 import 'package:tutienda/pantallas/pantalla2.dart';
+import 'package:tutienda/pantallas/vistaproducto.dart';
 
 class productos extends StatefulWidget {
   const productos({Key? key}) : super(key: key);
@@ -43,8 +44,13 @@ class _productosState extends State<productos> {
             padding: EdgeInsets.all(15),
             itemCount: tabla_productos.length,
             itemBuilder: (BuildContext,i){
-              return Container(
-                child: myCardImage(url: tabla_productos[i]['foto'],texto: tabla_productos[i]['nombre']+"\n"+tabla_productos[i]['precio'].toString(), texto2:tabla_productos[i]['descripcion'], ),
+              return ListTile(
+                onTap: (){
+                  print(tabla_productos[i]);
+                  datosProductos n = datosProductos(tabla_productos[i]['nombre'], tabla_productos[i]['precio'], tabla_productos[i]['descripcion'], tabla_productos[i]['negocio'],tabla_productos[i]['foto']);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>vistaproducto(tienda: n)));
+                  },
+                title: myCardImage(url: tabla_productos[i]['foto'],texto: tabla_productos[i]['nombre']+"\n"+tabla_productos[i]['precio'].toString(), texto2:tabla_productos[i]['descripcion'], ),
               );
             },
           ),
@@ -52,6 +58,16 @@ class _productosState extends State<productos> {
         bottomNavigationBar : menuinferior()
     );
   }
+}
+
+class datosProductos{
+  String nombre="";
+  int precio =0;
+  String descripcion="";
+  String negocio="";
+  String foto="";
+
+  datosProductos(this.nombre, this.precio, this.descripcion, this.negocio, this.foto);
 }
 
 class myCardImage extends StatelessWidget {

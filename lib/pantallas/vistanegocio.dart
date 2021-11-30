@@ -1,74 +1,43 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tutienda/pantallas/negocios.dart';
 import 'package:tutienda/pantallas/pantalla2.dart';
 import 'package:tutienda/pantallas/productos.dart';
-import 'package:tutienda/pantallas/vistanegocio.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'negocios.dart';
 
-class pantalla3 extends StatefulWidget {
-  final String criterio;
-  const pantalla3(this.criterio, {Key? key}) : super(key: key);
-
-  @override
-  _pantalla3State createState() => _pantalla3State();
-}
-
-class _pantalla3State extends State<pantalla3> {
-  List listaNegocios=[];
-  void initState(){
-    super.initState();
-    getNegocio();
-  }
-  void getNegocio() async {
-    CollectionReference negocios = FirebaseFirestore.instance.collection('negocios');
-    QuerySnapshot res = await negocios.where('categoria',isEqualTo: widget.criterio).get();
-    if (res.docs != 0){
-      print("trae datos");
-      for(var neg in res.docs){
-        print(neg.data());
-        setState(() {
-          listaNegocios.add(neg.data());
-        });
-      }
-    }else{
-      print("Algo falló");
-    }
-  }
-
-
+class vistanegocio extends StatelessWidget {
+  final datosNegocios tienda;
+  const vistanegocio({required this.tienda});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Búsqueda"),
+        title: Text(tienda.nombre)
       ),
-      body: ListView.builder(
-            padding: EdgeInsets.all(15),
-            itemCount: listaNegocios.length,
-            itemBuilder: (BuildContext,i){
-              return ListTile(
-                onTap: (){
-                  print(listaNegocios[i]);
-                  datosNegocios d = datosNegocios(listaNegocios[i]['nombre'], listaNegocios[i]['celular'], listaNegocios[i]['telefono'], listaNegocios[i]['direccion'], listaNegocios[i]['paginaweb'], listaNegocios[i]['foto']);
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>vistanegocio(tienda: d)));
-                  },
-                title: myCardImage(url: listaNegocios[i]['logo'],texto: listaNegocios[i]['nombre']+"\n"+listaNegocios[i]['celular'].toString(),texto2: listaNegocios[i]['direccion'], ),
-                );
-              },
-              ),
-
+      body: ListView(
+        padding: EdgeInsets.all(20),
+        children: [
+          myCardImage(url: tienda.foto,texto: tienda.nombre+"\n"+tienda.celular.toString()),
+          Container(
+              padding: EdgeInsets.all(0),
+              child: Text("Dirección:\n"+tienda.direccion +"\n"+"Telefono/Celular:\n"+tienda.telefono.toString(),style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold, color: Colors.black54),)
+          ),
+          ElevatedButton(
+              onPressed: (){
+                launch(tienda.paginaweb);
+              }, child: Text("Ir a página web"))
+        ],
+      ),
         bottomNavigationBar : menuinferior()
     );
   }
 }
+
 class myCardImage extends StatelessWidget {
   final String url;
   final String texto;
-  final String texto2;
-  const myCardImage({required this.url, required this.texto, required this.texto2});
+  const myCardImage({required this.url, required this.texto});
 
 
   @override
@@ -87,18 +56,12 @@ class myCardImage extends StatelessWidget {
                 child: Text(texto
                   , style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 20), textAlign: TextAlign.center,),
               ),
-              Container(
-                padding: EdgeInsets.all(15),
-                child: Text(texto2),
-              ),
             ]
         ),
       ),
     );
   }
 }
-
-
 
 class menuinferior extends StatelessWidget {
   @override
@@ -133,8 +96,4 @@ class menuinferior extends StatelessWidget {
     );
   }
 }
-
-
-
-
 

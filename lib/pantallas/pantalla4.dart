@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tutienda/pantallas/negocios.dart';
 import 'package:tutienda/pantallas/pantalla2.dart';
 import 'package:tutienda/pantallas/productos.dart';
+import 'package:tutienda/pantallas/vistaproducto.dart';
 
 class pantalla4 extends StatefulWidget {
   final String criterio;
@@ -65,8 +66,13 @@ class _pantalla4State extends State<pantalla4> {
             padding: EdgeInsets.all(15),
             itemCount: listaProductos.length,
             itemBuilder: (BuildContext,i){
-              return Container(
-                  child: myCardImage(url: listaProductos[i]['foto'],texto: listaProductos[i]['nombre']+"\n"+listaProductos[i]['precio'].toString(), texto2:listaProductos[i]['descripcion'], ),
+              return ListTile(
+                onTap: (){
+                  print(listaProductos[i]);
+                  datosProductos n = datosProductos(listaProductos[i]['nombre'], listaProductos[i]['precio'], listaProductos[i]['descripcion'], listaProductos[i]['negocio'],listaProductos[i]['foto']);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>vistaproducto(tienda: n)));
+                },
+                title: myCardImage(url: listaProductos[i]['foto'],texto: listaProductos[i]['nombre']+"\n"+listaProductos[i]['precio'].toString(), texto2:listaProductos[i]['descripcion'], ),
               );
             },
           ),
@@ -76,7 +82,6 @@ class _pantalla4State extends State<pantalla4> {
 
   }
 }
-
 
 class myCardImage extends StatelessWidget {
   final String url;

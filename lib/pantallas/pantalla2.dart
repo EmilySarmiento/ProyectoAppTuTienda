@@ -58,7 +58,13 @@ class pantalla2 extends StatelessWidget {
               ],
             ),
           ),
-          bottomNavigationBar : menuinferior()
+
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+          },
+          child: Icon(Icons.accessibility),
+        ),
+        bottomNavigationBar : menuinferior()
         );
   }
 }
