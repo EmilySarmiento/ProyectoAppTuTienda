@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tutienda/pantallas/pantalla2.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tutienda/pantallas/perfilCliente.dart';
 import 'package:tutienda/pantallas/registro.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
@@ -33,6 +36,11 @@ class miTienda extends StatefulWidget {
   _miTiendaState createState() => _miTiendaState();
 }
 class _miTiendaState extends State<miTienda> {
+
+  final ingreso = TextEditingController();
+  final ingreso2 = TextEditingController();
+  CollectionReference clientes = FirebaseFirestore.instance.collection('clientes'); //conexion a la coleccion de clientes
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +65,7 @@ class _miTiendaState extends State<miTienda> {
                     padding: EdgeInsets.all(10),
                     child: TextField(
                       autofocus: false,
+                      controller: ingreso,
                       keyboardType: TextInputType.phone, //coloca el tipo de teclado que se va a mostrar, en este caso el numérico
                       textInputAction: TextInputAction.send, // en enviar, cambia el enter por e avion
                       decoration: InputDecoration(
@@ -66,11 +75,50 @@ class _miTiendaState extends State<miTienda> {
                     ),
                   ),
                   Container(
+                    padding: EdgeInsets.all(10),
+                    child: TextField(
+                      autofocus: false,
+                      controller: ingreso2,
+                      keyboardType: TextInputType.text, //coloca el tipo de teclado que se va a mostrar, en este caso el numérico
+                      textInputAction: TextInputAction.send, // en enviar, cambia el enter por e avion
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.mail, color : Colors.redAccent, size: 25,),
+                        hintText: "Ingresa tu correo electrónico",
+                      ),
+                    ),
+                  ),
+                  Container(
                     padding: EdgeInsets.all(5),
                     child: ElevatedButton(
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>pantalla2())); //Dirigir con el botón a otra pantalla
-                      },
+                      onPressed: () async {
+                        QuerySnapshot existe = await clientes.where(
+                        FieldPath.documentId, isEqualTo: ingreso.text).where('correo', isEqualTo: ingreso2.text).get();
+                          if (existe.docs.length > 0) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>actualizarCliente())); //Dirigir con el botón a otra pantalla
+
+                          }else{
+                            showDialog(
+                              context: context,
+                              builder: (buildcontext) {
+                                return AlertDialog(
+                                  title: Text("Ingreso fallido", style: TextStyle(
+                                      color: Colors.redAccent,
+                                      fontWeight: FontWeight.bold),),
+                                  content: Text("Cédula o correo electrónico incorrecto"),
+                                  actions: <Widget>[
+                                    ElevatedButton(
+                                      child: Text("CERRAR", style: TextStyle(
+                                          color: Colors.white),),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

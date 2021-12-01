@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tutienda/pantallas/negocios.dart';
 import 'package:tutienda/pantallas/pantalla3.dart';
 import 'package:tutienda/pantallas/pantalla4.dart';
+import 'package:tutienda/pantallas/perfilCliente.dart';
 import 'package:tutienda/pantallas/productos.dart';
 import 'package:tutienda/pantallas/registro.dart';
 
@@ -62,7 +63,7 @@ class pantalla2 extends StatelessWidget {
 
         floatingActionButton: FloatingActionButton(
           onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>registroClientes())); //Dirigir con el botón a otra pantalla
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>actualizarCliente())); //Dirigir con el botón a otra pantalla
           },
           child: Icon(Icons.accessibility),
         ),

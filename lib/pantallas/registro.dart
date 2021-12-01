@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tutienda/pantallas/pantalla2.dart';
 
 class registroClientes extends StatefulWidget {
   const registroClientes({Key? key}) : super(key: key);
@@ -18,6 +19,14 @@ class _registroClientesState extends State<registroClientes> {
   final direccion = TextEditingController();
 
   CollectionReference clientes = FirebaseFirestore.instance.collection('clientes'); //conexion a la coleccion de clientes
+  void limpiar(){
+    cedula.text="";
+    nombre.text="";
+    apellidos.text="";
+    celular.text="";
+    correo.text="";
+    direccion.text="";
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,60 +130,114 @@ class _registroClientesState extends State<registroClientes> {
           Container(
             padding: EdgeInsets.all(30),
             child: ElevatedButton(
-              onPressed: (){
-                  if(cedula.text.isEmpty || nombre.text.isEmpty || apellidos.text.isEmpty || correo.text.isEmpty || celular.text.isEmpty || direccion.text.isEmpty){
-                    print("Campo vacío");
-                    showDialog(
-                      context: context,
-                      builder: (buildcontext)
-                    {
+              child: Text("Registrar"),
+              onPressed: ()async {
+                if (cedula.text.isEmpty || nombre.text.isEmpty ||
+                    apellidos.text.isEmpty || correo.text.isEmpty ||
+                    celular.text.isEmpty || direccion.text.isEmpty) {
+                  print("Campo vacío");
+                  showDialog(
+                    context: context,
+                    builder: (buildcontext) {
                       return AlertDialog(
-                        title: Text("Registro fallido", style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),),
-                        content: Text("Verifica que todos los campos esten llenos"),
+                        title: Text("Registro fallido", style: TextStyle(
+                            color: Colors.redAccent,
+                            fontWeight: FontWeight.bold),),
+                        content: Text(
+                            "Verifica que todos los campos esten llenos"),
                         actions: <Widget>[
-                          RaisedButton(
+                          ElevatedButton(
                             child: Text("CERRAR", style: TextStyle(
                                 color: Colors.white),),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            color: Colors.redAccent,
                           )
                         ],
                       );
                     },
-                    );
-                  }else{
-                    clientes.doc(cedula.text).set({
-                      "nombre":nombre.text,
-                      "apellidos" : apellidos.text,
-                      "celular" : celular.text,
-                      "correo": correo.text,
-                      "direccion": direccion.text
-                    });
+                  );
+                } else {
+                  QuerySnapshot existe = await clientes.where(FieldPath.documentId, isEqualTo: cedula.text).get();
+                  limpiar();
+                  if (existe.docs.length > 0) {
                     showDialog(
                       context: context,
-                      builder: (buildcontext)
-                      {
+                      builder: (buildcontext) {
                         return AlertDialog(
-                          title: Text("Registro exitoso", style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),),
-                          content: Text("Cliente registrado exitosamente"),
+                          title: Text("Registro fallido", style: TextStyle(
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.bold),),
+                          content: Text("Cliente ya existe"),
                           actions: <Widget>[
-                            RaisedButton(
+                            ElevatedButton(
                               child: Text("CERRAR", style: TextStyle(
                                   color: Colors.white),),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              color: Colors.redAccent,
                             )
                           ],
                         );
                       },
                     );
+                    limpiar();
+                  } else {
+                    clientes.doc(cedula.text).set({
+                      "nombre": nombre.text,
+                      "apellidos": apellidos.text,
+                      "celular": celular.text,
+                      "correo": correo.text,
+                      "direccion": direccion.text
+                    });
+                    QuerySnapshot existe = await clientes.where(FieldPath.documentId, isEqualTo: cedula.text).get();
+                    limpiar();
+                    if (existe.docs.length > 0) {
+                      showDialog(
+                        context: context,
+                        builder: (buildcontext) {
+                          return AlertDialog(
+                            title: Text("Registro exitoso", style: TextStyle(
+                                color: Colors.redAccent,
+                                fontWeight: FontWeight.bold),),
+                            content: Text("Cliente registrado"),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                child: Text("INICIAR SESIÓN", style: TextStyle(
+                                    color: Colors.white),),
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>pantalla2()));
+                                },
+                              )
+                            ],
+                          );
+                        },
+                      );
+                    }else{
+                      showDialog(
+                        context: context,
+                        builder: (buildcontext) {
+                          return AlertDialog(
+                            title: Text("Registro fallido", style: TextStyle(
+                                color: Colors.redAccent,
+                                fontWeight: FontWeight.bold),),
+                            content: Text("El cliente no se registró"),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                child: Text("CERRAR", style: TextStyle(
+                                    color: Colors.white),),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                        },
+                      );
+                    }
                   }
-              },
-              child: Text("Registrar"),
+                }
+              }
             ),
           ),
         ],
@@ -182,3 +245,4 @@ class _registroClientesState extends State<registroClientes> {
     );
   }
 }
+
