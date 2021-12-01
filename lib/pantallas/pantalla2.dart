@@ -63,7 +63,7 @@ class pantalla2 extends StatelessWidget {
 
         floatingActionButton: FloatingActionButton(
           onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>actualizarCliente())); //Dirigir con el botón a otra pantalla
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>pantalla2())); //Dirigir con el botón a otra pantalla
           },
           child: Icon(Icons.accessibility),
         ),

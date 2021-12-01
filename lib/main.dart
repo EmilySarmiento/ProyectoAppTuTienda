@@ -48,15 +48,16 @@ class _miTiendaState extends State<miTienda> {
           title: Text("TuTienda"),
         ),
         body: Container(
+          padding: EdgeInsets.all(20),
           color: Colors.white60,
           child: Center(
               child: ListView(
                 children: [
                   Container(
-                      padding: EdgeInsets.all(10),
-                      child: Image.network('https://lh3.googleusercontent.com/-YK9Sy-RAGus/YZw1A29ncjI/AAAAAAAABSo/WRyxIqljZvAPXeoK1z6thebDAd3gkwD0QCLcBGAsYHQ/image.png')),
+                      padding: EdgeInsets.all(0),
+                      child: Image.network('https://blogger.googleusercontent.com/img/a/AVvXsEjDi_BXcRzjR5XNluGnTil5ajE-RYBkVjewgnlJ5ViBQidONlCA-iHKEifMi8sx4ZHJV2NWrRVeg4mIe6KJjVtM-Lc-TKs0pUmveLD_8B4QKPw8N6Iq4YNXmOYaB4O4OsHoPdUdguW_2grU_9viTPH6t8l3XTS7HzfYdqlK_lGVtqQs9tdVPG6VVk72iA=s320',scale:2,)),
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(5),
                     child:Center(
                       child: Text("Bienvenido a TuTienda",style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black54)),
                     ),
@@ -93,8 +94,13 @@ class _miTiendaState extends State<miTienda> {
                       onPressed: () async {
                         QuerySnapshot existe = await clientes.where(
                         FieldPath.documentId, isEqualTo: ingreso.text).where('correo', isEqualTo: ingreso2.text).get();
+                        List lista=[];
                           if (existe.docs.length > 0) {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>actualizarCliente())); //Dirigir con el botón a otra pantalla
+                            for (var cli in existe.docs){
+                              lista.add(cli.data());
+                            }
+                            datosCliente dCli = datosCliente(ingreso.text, lista[0]['nombre'], lista[0]['apellidos'], lista[0]['celular'], lista[0]['correo'], lista[0]['direccion']);
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>actualizarCliente(cliente : dCli))); //Dirigir con el botón a otra pantalla
 
                           }else{
                             showDialog(
@@ -149,3 +155,13 @@ class _miTiendaState extends State<miTienda> {
   }
 }
 
+class datosCliente{
+  String cedula="";
+  String nombre="";
+  String apellidos="";
+  String celular="";
+  String correo="";
+  String direccion="";
+
+  datosCliente(this.cedula, this.nombre,this.apellidos, this.celular, this.correo, this.direccion );
+}
