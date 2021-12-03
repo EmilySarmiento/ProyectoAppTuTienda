@@ -100,7 +100,7 @@ class _miTiendaState extends State<miTienda> {
                               lista.add(cli.data());
                             }
                             datosCliente dCli = datosCliente(ingreso.text, lista[0]['nombre'], lista[0]['apellidos'], lista[0]['celular'], lista[0]['correo'], lista[0]['direccion']);
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>actualizarCliente(cliente : dCli))); //Dirigir con el botón a otra pantalla
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>pantalla2())); //Dirigir con el botón a otra pantalla
 
                           }else{
                             showDialog(

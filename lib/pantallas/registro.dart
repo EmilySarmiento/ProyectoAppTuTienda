@@ -159,7 +159,6 @@ class _registroClientesState extends State<registroClientes> {
                   );
                 } else {
                   QuerySnapshot existe = await clientes.where(FieldPath.documentId, isEqualTo: cedula.text).get();
-                  limpiar();
                   if (existe.docs.length > 0) {
                     showDialog(
                       context: context,
@@ -191,7 +190,6 @@ class _registroClientesState extends State<registroClientes> {
                       "direccion": direccion.text
                     });
                     QuerySnapshot existe = await clientes.where(FieldPath.documentId, isEqualTo: cedula.text).get();
-                    limpiar();
                     if (existe.docs.length > 0) {
                       showDialog(
                         context: context,
@@ -203,16 +201,17 @@ class _registroClientesState extends State<registroClientes> {
                             content: Text("Cliente registrado"),
                             actions: <Widget>[
                               ElevatedButton(
-                                child: Text("INICIAR SESIÓN", style: TextStyle(
+                                child: Text("CERRAR", style: TextStyle(
                                     color: Colors.white),),
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>pantalla2()));
+                                  Navigator.of(context).pop();
                                 },
                               )
                             ],
                           );
                         },
                       );
+                      limpiar();
                     }else{
                       showDialog(
                         context: context,
@@ -236,6 +235,7 @@ class _registroClientesState extends State<registroClientes> {
                       );
                     }
                   }
+                  limpiar();
                 }
               }
             ),
