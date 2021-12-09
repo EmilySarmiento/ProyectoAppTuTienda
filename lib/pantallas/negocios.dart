@@ -51,7 +51,7 @@ class _negocioState extends State<negocio> {
               return ListTile(
                 onTap: (){
                   print(tabla_negocios[i]);
-                  datosNegocios n = datosNegocios(tabla_negocios[i]['nombre'], tabla_negocios[i]['celular'], tabla_negocios[i]['telefono'], tabla_negocios[i]['direccion'], tabla_negocios[i]['paginaweb'], tabla_negocios[i]['foto']);
+                  datosNegocios n = datosNegocios(tabla_negocios[i]['nombre'], tabla_negocios[i]['celular'], tabla_negocios[i]['telefono'], tabla_negocios[i]['direccion'], tabla_negocios[i]['paginaweb'], tabla_negocios[i]['foto'],tabla_negocios[i]['geolocalizacion']);
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>vistanegocio(tienda: n)));
                   },
                 title: myCardImage(url: tabla_negocios[i]['logo'],texto: tabla_negocios[i]['nombre']+"\n"+tabla_negocios[i]['celular'].toString(),texto2: tabla_negocios[i]['direccion'], ),
@@ -104,6 +104,7 @@ class datosNegocios{
   String direccion="";
   String paginaweb="";
   String foto="";
+  String geolocalizacion="";
 
-  datosNegocios(this.nombre, this.celular, this.telefono, this.direccion, this.paginaweb, this.foto);
+  datosNegocios(this.nombre, this.celular, this.telefono, this.direccion, this.paginaweb, this.foto, this.geolocalizacion);
 }

@@ -51,7 +51,7 @@ class _pantalla3State extends State<pantalla3> {
               return ListTile(
                 onTap: (){
                   print(listaNegocios[i]);
-                  datosNegocios d = datosNegocios(listaNegocios[i]['nombre'], listaNegocios[i]['celular'], listaNegocios[i]['telefono'], listaNegocios[i]['direccion'], listaNegocios[i]['paginaweb'], listaNegocios[i]['foto']);
+                  datosNegocios d = datosNegocios(listaNegocios[i]['nombre'], listaNegocios[i]['celular'],listaNegocios[i]['telefono'],listaNegocios[i]['direccion'], listaNegocios[i]['paginaweb'], listaNegocios[i]['foto'],listaNegocios[i]['geolocalizacion']);
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>vistanegocio(tienda: d)));
                   },
                 title: myCardImage(url: listaNegocios[i]['logo'],texto: listaNegocios[i]['nombre']+"\n"+listaNegocios[i]['celular'].toString(),texto2: listaNegocios[i]['direccion'], ),

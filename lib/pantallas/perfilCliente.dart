@@ -198,7 +198,7 @@ class _actualizarClienteState extends State<actualizarCliente> {
                             );
                           },
                         );
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>principal()));
+                        Navigator.of(context).pop();
                       },
                       child: Text("Eliminar"),
                     ),

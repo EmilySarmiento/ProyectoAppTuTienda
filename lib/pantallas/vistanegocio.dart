@@ -26,7 +26,11 @@ class vistanegocio extends StatelessWidget {
           ElevatedButton(
               onPressed: (){
                 launch(tienda.paginaweb);
-              }, child: Text("Ir a página web"))
+              }, child: Text("Ir a página web")),
+          ElevatedButton(
+              onPressed: (){
+                launch(tienda.geolocalizacion);
+                }, child: Text("Ir a geolocalización"))
         ],
       ),
     );

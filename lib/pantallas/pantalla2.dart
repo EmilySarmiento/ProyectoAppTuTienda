@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutienda/pantallas/comprobarCliente.dart';
+import 'package:tutienda/pantallas/mensaje.dart';
 import 'package:tutienda/pantallas/negocios.dart';
 import 'package:tutienda/pantallas/pantalla3.dart';
 import 'package:tutienda/pantallas/pantalla4.dart';
@@ -112,6 +113,13 @@ class menuinferior extends StatelessWidget {
                 title: Text("Pedidos"),
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>pedidos()));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.add_alert_sharp),
+                title: Text("Notificaciones"),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>mensaje()));
                 },
               ),
               ListTile(

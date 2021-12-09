@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tutienda/pantallas/carritoCompra.dart';
 import 'package:tutienda/pantallas/pantalla2.dart';
 
 class registrarPedido extends StatefulWidget {
@@ -43,8 +44,7 @@ class _registrarPedidoState extends State<registrarPedido> {
           actions: [
             IconButton(
                 onPressed: (){
-                  print(nombrePedido[0].nombre);
-                  print(nombrePedido[0].total);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>carritoCompra(pedido: nombrePedido, negocio: widget.id, cliente: widget.cedula)));
                 }, icon: Icon(Icons.shopping_cart,size: 25,))
           ],
       ),
